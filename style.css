@@ -1,0 +1,40 @@
+@import './styles/route.css';
+@import './styles/header.css';
+@import './styles/main.css';
+
+:root {
+  --base_font_size: 14px;
+  --back_ground_form: rgb(255, 255, 255);
+  --button_main: rgb(122, 197, 247);
+  --button_main-hover: rgba(144, 208, 250, 0.952);
+}
+
+html {
+  height: 100%;
+  font-size: var(--base_font_size);
+}
+
+.loader {
+  height: 100vh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body, 
+.route {
+  min-height: 100vh;
+}
+.hidden_on {
+  overflow: hidden;
+}
+.title {
+  padding: 0.25em 0.25em;
+}
+.title_1 {
+  font-size: 3em;
+}
+.title_2 {
+  font-size: 1.5em;
+}

@@ -1,0 +1,30 @@
+
+.route {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  position: relative;
+
+}
+
+.main {
+  flex-grow: 1;
+}
+
+.back {
+  position: absolute;
+  z-index: -10;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  background-color: rgba(48, 48, 48, 0.35);
+  transition: opacity 1s;
+}
+
+.back_on {
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 1s;
+}
