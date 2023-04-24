@@ -18,6 +18,7 @@ const ADDBOOK_ON = 'addBook_on'
 const BACK = 'back';
 const BACK_ON = 'back_on';
 const WRAPPERFORM = 'wrapperForm';
+const CLOSEFORM = 'wrapperForm_close';
 const WRAPPERFORM_JS = '.wrapperForm';
 const WRAPPERFORM_ON = 'wrapperForm_on'
 const FORM = 'form';
@@ -77,7 +78,9 @@ export class Library {
     const newBookForm = document.createElement('div');
     newBookForm.classList.add(WRAPPERFORM);
     controls.append(newBookForm)
-    // this.formEl = newBookForm;
+    // close form element 
+    const closeFormElement = document.createElement('div');
+    closeFormElement.classList.add(CLOSEFORM);
     // form title
     const titleH3 = document.createElement('h3');
     titleH3.innerText = 'Add new book';
@@ -107,7 +110,7 @@ export class Library {
     fieldAuthor.id = 'author';
     fieldAuthor.name = 'author';
     fieldAuthor.required = true;
-    [ fieldAuthor.minLength, fieldAuthor.maxLength ] = [1 , 100];
+    [ fieldAuthor.minLength, fieldAuthor.maxLength ] = [1 , 50];
     labAuthor.append(fieldAuthor);
     // label and input for amount pages of book
     const labPages = document.createElement('label');
@@ -123,11 +126,11 @@ export class Library {
    // button to send data for creating book
     const buttonAdd = document.createElement('button');
     buttonAdd.classList.add(ADDBUTTONFORM);
-    // buttonAdd.type = "submit";
+    buttonAdd.type = "submit";
     buttonAdd.innerText = 'add';
     // adding elemets to wrapper and form
     form.append(labName, labAuthor, labPages, buttonAdd);
-    newBookForm.append(titleH3, form);
+    newBookForm.append(closeFormElement, titleH3, form);
     // adding elemets to main block
     main.append(controls, libraryEl)
 
@@ -143,7 +146,7 @@ export class Library {
     routeEl.append(header, main, footer, back,);
 
     // touchig list of elemets
-    this.listEl = { routeEl, addBookButton, libraryEl, back, newBookForm, form, buttonAdd }
+    this.listEl = { routeEl, addBookButton, libraryEl, back, newBookForm, closeFormElement, form, buttonAdd }
 
     if(this.state.length != 0) {
       this.state.forEach((book) => {
@@ -161,19 +164,11 @@ export class Library {
       document.body.classList.add(HIDDEN_ON);
     });
 
-    this.listEl.back.addEventListener('click', (ev) => {
-      if(ev.target.closest(WRAPPERFORM_JS)) { return; }
-      this.listEl.addBookButton.disabled = false;
-      this.listEl.addBookButton.classList.remove(ADDBOOK_ON);
+    this.listEl.back.addEventListener('click', this.closeForm.bind(this));
+    this.listEl.closeFormElement.addEventListener('click', this.closeForm.bind(this));
 
-
-      this.listEl.newBookForm.classList.remove(WRAPPERFORM_ON);
-      this.listEl.back.classList.remove(BACK_ON);
-      document.body.classList.remove(HIDDEN_ON);
-    });
-
-    this.listEl.buttonAdd.addEventListener('click', (ev) => {
-      // ev.preventDefault();
+    this.listEl.form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
     
       const book = {
         name: { value: this.listEl.form.elements.name.value,
@@ -183,20 +178,14 @@ export class Library {
         pages: { value: this.listEl.form.elements.pages.value,
           required: this.listEl.form.elements.pages.required },
       };
-      console.log(book, '   book');
+
       if(!isValidateInput(null, book)) {
-        console.log(isValidateInput(null, book), ' ---isValidateInput'); 
+      
         return;
       }
 
-      // const Ebook = {
-      //   ...this.listEl.form.elements,
-      // };
-
-      console.log(this.state, ' state');
-      console.log(window.localStorage);
-
       this.addBook(book);
+      console.log('addBook --------')
     });
 
   }
@@ -225,6 +214,14 @@ export class Library {
       console.error(error);
       return error;
     }          
+  }
+  closeForm(ev) {
+    this.listEl.addBookButton.disabled = false;
+    this.listEl.addBookButton.classList.remove(ADDBOOK_ON);
+
+   this.listEl.newBookForm.classList.remove(WRAPPERFORM_ON);
+    this.listEl.back.classList.remove(BACK_ON);
+   document.body.classList.remove(HIDDEN_ON);
   }
 }
 

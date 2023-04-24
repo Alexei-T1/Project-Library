@@ -56,6 +56,39 @@ button:hover {
   outline: 2em solid rgba(190, 190, 190, 0.822);
 }
 
+.wrapperForm_close {
+  position: absolute;
+  height: 2em;
+  width: 2em;
+  top: -2em;
+  right: -2em;
+  transition: transform ease 0.5s;
+  cursor: pointer;
+}
+.wrapperForm_close:hover {
+  transform: scale(1.2);
+}
+.wrapperForm_close::before, .wrapperForm_close::after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-bottom: 3px solid rgb(243, 74, 74);
+  transition: border-bottom linear 0.5s;
+} 
+.wrapperForm_close:hover::before, 
+.wrapperForm_close:hover::after {
+
+  border-bottom: 3px solid rgb(224, 47, 47);
+} 
+.wrapperForm_close::before {
+  transform: rotate(-45deg) translate(0em, -1em);
+}
+.wrapperForm_close::after {
+  transform: rotate(45deg) translate(0em,-1em);
+}
+
 .wrapperForm > .title {
   margin-bottom: 0.7em;
   text-align: center;
