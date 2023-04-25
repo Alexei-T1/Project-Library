@@ -144,3 +144,10 @@ button:hover {
   min-height: 16em;
   border: 1px solid;
 }
+
+.button_remove {
+  background-color: var(--button_remove);
+}
+.button_remove:hover {
+  background-color: var(--button_remove-hover);
+}
