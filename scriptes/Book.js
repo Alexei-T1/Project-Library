@@ -1,18 +1,24 @@
+import { deleteFromStorage } from "./ListBooks.js";
+import { libraryIn } from '../Index.js';
 
 // styles class list
 const BOOK = 'book';
+const BOOK_REMOVE = 'book_remove';
 const BOOK_NAME = 'book__name';
 const BOOK_AUTHOR = 'book__author';
 const BOOK_PAGES = 'book__pages';
 const BUTTON_REMOVE = 'button_remove';
 
+
 export class Book {
   constructor(book) {
-    // const {name, author, pages} = book;
+    console.log(book);
     this.bookEl = null;
     this.listBook = {};
     this.creatHTML(book);
     this.addHeandlers();
+    this.bookData = book;
+    this.key = null;
   }
 
     creatHTML(book) {
@@ -44,7 +50,14 @@ export class Book {
     addHeandlers() {
       this.listBook.removeButton.addEventListener('click',this.remove.bind(this));
     }
-    remove() {
-      this.bookEl.remove();
+    remove(ev) {
+      this.bookEl.classList.add(BOOK_REMOVE);
+      console.log(this, '  this')
+      deleteFromStorage(this);
+      setTimeout(()=> {
+        this.bookEl.classList.remove(BOOK_REMOVE);
+        this.bookEl.remove();  
+        libraryIn.updateState(null, false)
+      }, 250) 
     }
 }

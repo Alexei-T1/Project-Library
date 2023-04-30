@@ -1,5 +1,5 @@
 import { Book } from './Book.js';
-import { listBooks, saveStorage } from './ListBooks.js';
+import { checkSaved, saveStorage } from './ListBooks.js';
 
 export { Book } from './Book.js'
 
@@ -36,7 +36,7 @@ export class Library {
   constructor(parentEl) {
     this.parent = parentEl;
     this.source = null;
-    this.state = listBooks;
+    this.state = checkSaved(window.localStorage);
 
     this.creatHTML();
     this.addHeandlers();
@@ -148,11 +148,7 @@ export class Library {
     // touchig list of elemets
     this.listEl = { routeEl, addBookButton, libraryEl, back, newBookForm, closeFormElement, form, buttonAdd }
 
-    if(this.state.length != 0) {
-      this.state.forEach((book) => {
-        this.addBook(book, true);
-      });
-    }
+    this.addBooks()
   }
   addHeandlers() {
     this.listEl.addBookButton.addEventListener('click', (ev) => {
@@ -194,18 +190,39 @@ export class Library {
     this.parent.append(this.listEl.routeEl)
     console.log(this.source)
   }
+  addBooks() {
+    const listKeys = Object.keys(this.state);
+    if(listKeys.length != 0) {
+      listKeys.forEach( ( key ) => {
+        this.addBook(this.state[key], true);
+      });
+    }
+  }
+  async updateState(bookData, key, add = true) {
+    if(add) { 
+      this.state[key] = bookData; 
+      return; 
+    }
+    this.state = checkSaved(window.localStorage);
+  }
 
   async addBook (bookData, checkLoad = false){
 
     try {
         const send = (bookData) => {
-        /* save to localStorage a new book. ignore then loading*/
-        if(!checkLoad) saveStorage(bookData);
-        
+
         /* create and add a new book*/
         const book = new Book(bookData);
         const parentElBook = this.listEl.libraryEl; 
         parentElBook.append(book.bookEl);
+
+        /* save to localStorage a new book. ignore then loading*/
+        if(!checkLoad) {
+          const key = `-book:${bookData.author.value}-${bookData.name.value}`;
+          this.updateState(bookData, key);
+          saveStorage(bookData, key);
+        } 
+       
       }
 
       setTimeout(send, 100, bookData);
@@ -219,9 +236,9 @@ export class Library {
     this.listEl.addBookButton.disabled = false;
     this.listEl.addBookButton.classList.remove(ADDBOOK_ON);
 
-   this.listEl.newBookForm.classList.remove(WRAPPERFORM_ON);
+    this.listEl.newBookForm.classList.remove(WRAPPERFORM_ON);
     this.listEl.back.classList.remove(BACK_ON);
-   document.body.classList.remove(HIDDEN_ON);
+    document.body.classList.remove(HIDDEN_ON);
   }
 }
 
