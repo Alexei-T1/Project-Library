@@ -1,5 +1,5 @@
 import { Book } from './Book.js';
-import { checkSaved, saveStorage } from './ListBooks.js';
+import { checkSaved, saveStorage } from './forStorage.js';
 
 export { Book } from './Book.js'
 
@@ -218,9 +218,8 @@ export class Library {
 
         /* save to localStorage a new book. ignore then loading*/
         if(!checkLoad) {
-          const key = `-book:${bookData.author.value}-${bookData.name.value}`;
-          this.updateState(bookData, key);
-          saveStorage(bookData, key);
+          this.updateState(bookData, book.key);
+          saveStorage(bookData, book.key);
         } 
        
       }

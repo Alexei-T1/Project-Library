@@ -1,4 +1,4 @@
-import { deleteFromStorage } from "./ListBooks.js";
+import { deleteFromStorage } from "./forStorage.js";
 import { libraryIn } from '../Index.js';
 
 // styles class list
@@ -8,17 +8,17 @@ const BOOK_NAME = 'book__name';
 const BOOK_AUTHOR = 'book__author';
 const BOOK_PAGES = 'book__pages';
 const BUTTON_REMOVE = 'button_remove';
+const TITLE_3 = 'title_3';
 
 
 export class Book {
   constructor(book) {
-    console.log(book);
     this.bookEl = null;
     this.listBook = {};
     this.creatHTML(book);
     this.addHeandlers();
     this.bookData = book;
-    this.key = null;
+    this.key = `-book:${book.author.value}-${book.name.value}`;
   }
 
     creatHTML(book) {
@@ -26,17 +26,29 @@ export class Book {
       const wrapper = document.createElement('div');
       wrapper.classList.add(BOOK);
       // Elements of book
-      const name = document.createElement('p');
-      name.classList.add(BOOK_NAME);
-      name.innerText = book.name.value;
+      const name = document.createElement('h3');
+      name.classList.add(BOOK_NAME, TITLE_3);
+      const nameLabel= document.createElement('span');
+      nameLabel.innerText = 'Book title:';
+      const nameValue = document.createElement('span');
+      nameValue.innerText = book.name.value;
+      name.append(nameLabel, nameValue)
 
-      const author = document.createElement('p');
-      author.classList.add(BOOK_AUTHOR);
-      author.innerText = book.author.value;
+      const author = document.createElement('h3');
+      author.classList.add(BOOK_AUTHOR, TITLE_3);
+      const authorLabel = document.createElement('span');
+      authorLabel.innerText = 'Author:';
+      const authorValue = document.createElement('span');
+      authorValue.innerText = book.author.value;
+      author.append(authorLabel, authorValue)
 
-      const pages = document.createElement('p');
-      pages.classList.add(BOOK_PAGES);
-      pages.innerText = book.pages.value;
+      const pages = document.createElement('h3');
+      pages.classList.add(BOOK_PAGES, TITLE_3);
+      const pagesLabel = document.createElement('span');
+      pagesLabel.innerText = 'number of pages:';
+      const pagesValue = document.createElement('span');
+      pagesValue.innerText = book.pages.value;
+      pages.append(pagesLabel, pagesValue)
 
       const removeButton = document.createElement('button');
       removeButton.classList.add(BUTTON_REMOVE);
@@ -52,12 +64,11 @@ export class Book {
     }
     remove(ev) {
       this.bookEl.classList.add(BOOK_REMOVE);
-      console.log(this, '  this')
-      deleteFromStorage(this);
+      deleteFromStorage(this.key );
       setTimeout(()=> {
         this.bookEl.classList.remove(BOOK_REMOVE);
         this.bookEl.remove();  
         libraryIn.updateState(null, false)
-      }, 250) 
+      }, 200) 
     }
 }

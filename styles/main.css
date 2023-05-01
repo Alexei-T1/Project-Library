@@ -141,11 +141,13 @@ button:hover {
 .book {
   padding: 0.5em;
   min-width: max-content;
-  min-height: 16em;
-  border: 1px solid;
+  min-height: auto;
+  border: 1.5px solid;
 
   display: flex;
   flex-direction: column;
+
+  background-color: rgba(199, 197, 197, 0.527);
 }
 .book_remove {
   background-color: rgb(27, 4, 4);
@@ -165,4 +167,13 @@ button:hover {
 }
 .button_remove:hover {
   background-color: var(--button_remove-hover);
+}
+
+.book > h3 {
+  background-color: rgb(255, 255, 255);
+  padding: 0.5em 1em;
+  border-bottom: 1px solid;
+}
+.title_3:nth-last-child(1) {
+  margin-bottom: 1.5em;
 }

@@ -8,8 +8,9 @@ function checkSaved (storage) {
   const dict = Object.entries(storage).filter((i) => {
     return re.test(i[0]);
   }).reduce((dict, bookData) => {
-    const key = `-book:${bookData.author.value}-${bookData.name.value}`;
-    dict[key] = JSON.parse(book[1]); 
+    const book = JSON.parse(bookData[1])
+    const key = `-book:${book.author.value}-${book.name.value}`;
+    dict[key] = book; 
     return dict; 
   }, {});
 
@@ -21,7 +22,7 @@ async function saveStorage(bookData, key) {
     window.localStorage.setItem(key, stringBook);
 }
 
-async function deleteFromStorage( { key } ) {
+async function deleteFromStorage( key ) {
   window.localStorage.removeItem(key);
 }
 

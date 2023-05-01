@@ -40,3 +40,14 @@ body,
 .title_2 {
   font-size: 1.5em;
 }
+
+.title_3  {
+  display: flex;
+}
+.title_3 > span:nth-child(1) {
+  font-size: 1.3em;
+}
+.title_3 > span:last-child {
+  font-size: 1.1em;
+  margin: 0 auto;
+}
