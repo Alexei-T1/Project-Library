@@ -37,6 +37,7 @@ export class Library {
     this.parent = parentEl;
     this.source = null;
     this.state = checkSaved(window.localStorage);
+    console.log(this.state, '   this.state');
 
     this.creatHTML();
     this.addHeandlers();
@@ -84,8 +85,7 @@ export class Library {
     // form title
     const titleH3 = document.createElement('h3');
     titleH3.innerText = 'Add new book';
-    titleH3.classList.add(TITLE);
-    titleH3.classList.add(TITLE_2);
+    titleH3.classList.add(TITLE, TITLE_2);
     // adding form 
     const form = document.createElement('form');
     form.classList.add(FORM);
@@ -175,9 +175,21 @@ export class Library {
           required: this.listEl.form.elements.pages.required },
       };
 
-      if(!isValidateInput(null, book)) {
+      if(!this.isValidateInput(null, book)) {
       
         return;
+      }
+      const exist = document.querySelector('.exists');
+      switch(this.isValidateInput(null, book)) {
+        case 'exists':
+          if(exist) return;
+          const titleH3Exists = document.createElement('h3');
+          titleH3Exists.innerText = 'This book already exists';
+          titleH3Exists.classList.add(TITLE, TITLE_2, 'exists');
+          this.listEl.newBookForm.append(titleH3Exists);
+          return;
+          default:
+            if(exist) exist.remove();
       }
 
       this.addBook(book);
@@ -239,10 +251,14 @@ export class Library {
     this.listEl.back.classList.remove(BACK_ON);
     document.body.classList.remove(HIDDEN_ON);
   }
-}
 
-function isValidateInput(ev, book) {
-  if(!ev) {
-    return Object.values(book).filter((v) => v.value == '' && v.required ).length === 0;
+  isValidateInput(ev, book) {
+    if(!ev) {
+      if(this.state && this.state[`-book:${book.author.value}-${book.name.value}`]) {
+        return 'exists'
+      }
+      return Object.values(book).filter((v) => v.value == '' && v.required ).length === 0;
+    }
   }
 }
+

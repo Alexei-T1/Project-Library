@@ -9,6 +9,7 @@ const BOOK_AUTHOR = 'book__author';
 const BOOK_PAGES = 'book__pages';
 const BUTTON_REMOVE = 'button_remove';
 const TITLE_3 = 'title_3';
+const INPUTSECT = 'inputSection'
 
 
 export class Book {
@@ -25,6 +26,8 @@ export class Book {
        // wrapper for book
       const wrapper = document.createElement('div');
       wrapper.classList.add(BOOK);
+      const wrapperInput = document.createElement('div');
+      wrapperInput.classList.add(INPUTSECT);
       // Elements of book
       const name = document.createElement('h3');
       name.classList.add(BOOK_NAME, TITLE_3);
@@ -50,11 +53,13 @@ export class Book {
       pagesValue.innerText = book.pages.value;
       pages.append(pagesLabel, pagesValue)
 
+      wrapperInput.append(name, author, pages);
+
       const removeButton = document.createElement('button');
       removeButton.classList.add(BUTTON_REMOVE);
       removeButton.innerText = 'remove';
 
-      wrapper.append(name, author, pages, removeButton);
+      wrapper.append(wrapperInput, removeButton);
 
       this.bookEl = wrapper;
       Object.assign(this.listBook, { removeButton });
