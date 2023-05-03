@@ -37,7 +37,6 @@ export class Library {
     this.parent = parentEl;
     this.source = null;
     this.state = checkSaved(window.localStorage);
-    console.log(this.state, '   this.state');
 
     this.creatHTML();
     this.addHeandlers();
@@ -173,6 +172,7 @@ export class Library {
           required: this.listEl.form.elements.author.required },
         pages: { value: this.listEl.form.elements.pages.value,
           required: this.listEl.form.elements.pages.required },
+        checkRead:{ value: null },
       };
 
       if(!this.isValidateInput(null, book)) {
@@ -193,14 +193,12 @@ export class Library {
       }
 
       this.addBook(book);
-      console.log('addBook --------')
     });
 
   }
   start(sourceUrl) {
     this.source = sourceUrl;
     this.parent.append(this.listEl.routeEl)
-    console.log(this.source)
   }
   addBooks() {
     const listKeys = Object.keys(this.state);

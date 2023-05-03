@@ -158,6 +158,9 @@ button:hover {
 
   background-color: rgba(199, 197, 197, 0.527);
 }
+.book_on {
+  background-color: rgba(247, 193, 56, 0.644);
+}
 .book_remove {
   background-color: rgb(27, 4, 4);
   transition: background-color linear 0.3s;
@@ -165,12 +168,11 @@ button:hover {
 
 .button_remove {
   background-color: var(--button_remove);
-  width: 25%;
+  /* width: 25%; */
   height: 2em;
   font-size: 1.2em;
   color: white;
 
-  align-self: center;
   margin-top: auto;
   transition: background-color 0.4s ease;
 }
@@ -186,6 +188,29 @@ button:hover {
   padding: 0.5em 1em;
   border-bottom: 1px solid;
 }
+.optionSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.optionSection > label {
+  font-size: 1.2em;
+}
+label:has(.checkRead) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.4s ease;
+}
+label:has(.checkRead):hover {
+  background-color: var(--button_main-hover);
+}
+.checkRead {
+  cursor: pointer;
+  min-width: 2em;
+  min-height: 2em;
+}
 
-
+.checkRead:hover {
+  accent-color: var(--button_main-hover);
+}
 
